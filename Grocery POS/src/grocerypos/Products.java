@@ -10,7 +10,7 @@ public class Products {
     ImageIcon imageIcon;
     JButton button;
 
-    
+    // Make text pane for stocks
     private void stock(JPanel panel, int stock, int x, int y) {
         JTextPane stockPane = new JTextPane();
         stockPane.setText("Stocks: " + stock);
@@ -18,6 +18,7 @@ public class Products {
         stockPane.setBounds(x, y, 120, 22);
         panel.add(stockPane);
     }
+    // Make text pane for price
     private void price(String price, JPanel panel, int x, int y) {
         JTextPane product = new JTextPane();
         product.setText(price);
@@ -26,6 +27,7 @@ public class Products {
         panel.add(product);
     }
 
+    // Creation stock and price
     public void productInfo(JPanel panel, int xImgStk, int yImg, int yStk, int xPrc, int yPrc, double price, int stock) {
         stock(panel, stock, xImgStk, yStk);
 

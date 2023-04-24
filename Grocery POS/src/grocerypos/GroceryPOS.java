@@ -15,15 +15,16 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 
-public class GroceryPOS {
-    private JFrame frmGroceryPos;
+public class GroceryPOS extends JFrame{
     private JPanel productPanel;
     private JPanel orderPanel;
     private Cart tblShoppingCart;
     private ArrayList<String> productsShown = new ArrayList<>(Arrays.asList("", "", "", "", "", "", "", "", "", ""));
     private ArrayList<Double> pricesShown = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     private ArrayList<Integer> stocksShown = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    JLabel lblJIM;
+    private JLabel lblJIM;
+    private JButton catButton;
+    
     /**
      * Launch the application.
      */
@@ -32,7 +33,7 @@ public class GroceryPOS {
             public void run() {
                 try {
                     GroceryPOS window = new GroceryPOS();
-                    window.frmGroceryPos.setVisible(true);
+                    window.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,28 +52,27 @@ public class GroceryPOS {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frmGroceryPos = new JFrame();
-        frmGroceryPos.setTitle("Java International Market (JIM)");
-        frmGroceryPos.setBounds(100, 100, 1116, 696);
-        frmGroceryPos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frmGroceryPos.getContentPane().setLayout(null);
+        setTitle("Java International Market (JIM)");
+        setBounds(100, 100, 1116, 696);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
         productPanel = new JPanel();
         productPanel.setBackground(new Color(216, 216, 216));
         productPanel.setBounds(0, 0, 809, 499);
         productPanel.setLayout(null);
-        frmGroceryPos.getContentPane().add(productPanel);
+        getContentPane().add(productPanel);
         productPanel.setLayout(null);
         
         lblJIM = new JLabel("Java International Market POS");
         lblJIM.setFont(new Font("Swis721 Blk BT", Font.BOLD, 35));
-        lblJIM.setBounds(83, 204, 666, 99);
+        lblJIM.setBounds(150, 204, 666, 99);
         productPanel.add(lblJIM);
 
         orderPanel = new JPanel();
         orderPanel.setBackground(new Color(216, 216, 216));
         orderPanel.setBounds(819, 0, 281, 657);
-        frmGroceryPos.getContentPane().add(orderPanel);
+        getContentPane().add(orderPanel);
         orderPanel.setLayout(null);
         
         // ShoppingCart and related components
@@ -81,7 +81,7 @@ public class GroceryPOS {
         scrollPane.setBounds(0, 35, 281, 464);
         orderPanel.add(scrollPane);
         
-        // Buttons - Products
+        // Create product buttons and images
         createProductButtons();
         createImages();
 
@@ -91,30 +91,35 @@ public class GroceryPOS {
         String[] meatName = {"Beef", "Chicken", "Crab", "Duck", "Lamb", "Oyster", "Pork", "Sausage", "Scallop", "Turkey"};
         double[] meatPrice = {350.00, 250.00, 840.00, 190.00, 620.00, 360.00, 250.00, 140.00, 210.00, 370.00};
         int[] meatStock = {57, 41, 36, 44, 86, 40, 97, 73, 92, 12};
-        JButton meat = new JButton("Meat & Seafoods");
-        catBtnClicked(meat, 10, 533, 153, 99, meatLoc, meatName, meatPrice, meatStock);
+        createCatBtn("Meat & Seafoods", 10);
+        catBtnClicked(meatLoc, meatName, meatPrice, meatStock);
         //-------------------------------------------------------------------------
         String[] dairyLoc = {"butter.png", "buttermilk.jpg", "cheese.jpg", "condensed_milk.jpg", "custard.png", "evaporated_milk.jpg", "milk.jpg", "sour cream.jpg", "yakult.jpg", "yogurt.jpg"};
         String[] dairyName = {"Butter", "Buttermilk", "Cheese", "Condensed Milk", "Custard", "Evaporated Milk", "Milk", "Sour Cream", "Yakult", "Yogurt",};
         double[] dairyPrice = {95.00, 160.00, 145.00, 55.00, 250.00, 55.00, 80.00, 130.00, 55.00, 200.00};
         int[] dairyStock = {87, 73, 93, 44, 18, 82, 64, 30, 61, 23};
-        JButton dairy = new JButton("Dairy");
-        catBtnClicked(dairy, 220, 533, 153, 99, dairyLoc, dairyName, dairyPrice, dairyStock);
+        createCatBtn("Dairy", 220);
+        catBtnClicked(dairyLoc, dairyName, dairyPrice, dairyStock);
         //-------------------------------------------------------------------------
         String[] fruitLoc = {"apple.jpg", "avocado.jpg", "banana.jpg", "durian.jpg", "mango.jpg", "orange.jpg", "papaya.jpg", "pineapple.jpg", "strawberry.jpg", "watermelon.jpg"};
         String[] fruitName = {"Apple", "Avocado", "Banana", "Durian", "Mango", "Orange", "Papaya", "Pineapple", "Strawberry", "Watermelon"};
         double[] fruitPrice = {162.00, 70.00, 70.00, 50.00, 170.00, 70.00, 50.00, 59.00, 300.00, 80.00};
         int[] fruitStock = {71, 61, 11, 22, 35, 77, 68, 30, 24, 100};
-        JButton fruit = new JButton("Fruit");
-        catBtnClicked(fruit, 425, 533, 153, 99, fruitLoc, fruitName, fruitPrice, fruitStock);
+        createCatBtn("Fruit", 425);
+        catBtnClicked(fruitLoc, fruitName, fruitPrice, fruitStock);
         //-------------------------------------------------------------------------
         String[] vegeLoc = {"asparagus.jpg", "broccoli.jpg", "cabbage.jpg", "carrot.jpg", "garlic.jpg", "onion.jpg", "potato.jpg", "pumpkin.jpg", "spinach.jpg", "spring_onion.jpg"};
         String[] vegeName = {"Asparagus", "Broccoli", "Cabbage", "Carrot", "Garlic", "Onion", "Potato", "Pumpkin", "Spinach", "Spring Onion"};
         double[] vegePrice = {240.00, 200.00, 80.00, 100.00, 150.00, 170.00, 110.00, 69.00, 70.00, 180.00};
         int[] vegeStock = {62, 86, 99, 96, 16, 32, 25, 57, 92, 21};
-        JButton veggie = new JButton("Vegetables");
-        catBtnClicked(veggie, 633, 533, 153, 99, vegeLoc, vegeName, vegePrice, vegeStock);
-        //-------------------------------------------------------------------------
+        createCatBtn("Vegetable", 633);
+        catBtnClicked(vegeLoc, vegeName, vegePrice, vegeStock);
+    }
+    
+    private void createCatBtn(String btnName, int x) {
+    	catButton = new JButton(btnName);
+    	catButton.setBounds(x, 533, 153, 99);
+        getContentPane().add(catButton);
     }
 
     // Function to CREATE product buttons
@@ -144,7 +149,7 @@ public class GroceryPOS {
             productPanel.add(btn);
         }
     }
-    
+
     // Function to UPDATE product buttons
     private void updateProductButtons(String[] prodName, double[] price, int[] stock) {
         for (int i = 0; i < prodName.length; i++) {
@@ -157,8 +162,8 @@ public class GroceryPOS {
             btn.setVisible(true);
         }
     }
-    
-    
+
+    // Create instance of images
     private void createImages() {
         for (int i = 0; i <= 9; i++) {
             int x, y;
@@ -177,7 +182,8 @@ public class GroceryPOS {
             productPanel.add(lbl);
     	}
     }
-    
+
+    // Update images
     private void updateImages(String[] prodLoc) {
         for (int i = 0; i < prodLoc.length; i++) {
             JLabel lbl = (JLabel) productPanel.getComponent(i + 10);
@@ -192,18 +198,18 @@ public class GroceryPOS {
         }
     }
 
-    // THIS IS ONLY FOR CATEGORY BUTTONS
-    private void catBtnClicked(JButton button, int x, int y, int width, int height, String[] fileLoc, String[] prodName, double[] price, int[] stock) {
-        button.addActionListener(new ActionListener() {
+    // Create the category buttons and add its functionality
+    private void catBtnClicked( String[] fileLoc, String[] prodName, double[] price, int[] stock) {
+    	catButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	productPanel.remove(lblJIM);
                 ProductDisplay products = new ProductDisplay();
                 products.category(productPanel, price, stock);
+                
                 updateProductButtons(prodName, price, stock);
                 updateImages(fileLoc);
             }
         });
-        button.setBounds(x, y, width, height);
-        frmGroceryPos.getContentPane().add(button);
+        
     }
 }

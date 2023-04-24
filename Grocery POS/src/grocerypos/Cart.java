@@ -64,6 +64,7 @@ public class Cart extends JTable {
         createComponents(orderPanel);
     }
     
+    // Creation of cart-related components
     private void createComponents(JPanel orderPanel) {
         lblCart = new JLabel("Cart");
         lblCart.setFont(new java.awt.Font("Segoe UI", 1, 18));
@@ -148,6 +149,7 @@ public class Cart extends JTable {
         }
     }
     
+    // Adding items to the cart
     public void addItem(String name, double price, int stock) {
         DefaultTableModel model = (DefaultTableModel) getModel();
         boolean itemFound = false;
@@ -182,6 +184,7 @@ public class Cart extends JTable {
         updateTotalPrice();
     }
     
+    // Get the value of stock
     private int getStockForItem(String itemName) {
         for (int i = 0; i < productsInCart.size(); i++) {
             if (productsInCart.get(i).equals(itemName))
@@ -189,7 +192,8 @@ public class Cart extends JTable {
         }
         return 0;
     }
-        
+    
+    // Get the total cost of all the items
     private double getTotalCost() {
         double totalCost = 0.00;
         for (int i = 0; i < getRowCount(); i++) {
@@ -220,9 +224,8 @@ public class Cart extends JTable {
                 JOptionPane.showMessageDialog(null, "Payment is insufficient. Please enter a higher amount.", "Insufficient Payment", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
-            
-            // INSERT RECEIPT HERE
+               
+            // If all conditions are met, show receipt
             Receipt r = new Receipt(this, cashTendered);
             
             

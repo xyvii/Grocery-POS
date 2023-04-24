@@ -4,9 +4,9 @@ import javax.swing.JPanel;
 
 public class ProductDisplay {
 
+	// Creation of products
     public void category(JPanel panel, double[] price, int[] stock) {
         Products prod1 = new Products();
-        // Make sure to edit the fileLoc on where the image is located in your pc
         prod1.productInfo(panel, 10, 36, 11, 40, 159, price[0], stock[0]);
 
         //-------------------------------------------------------------------------
